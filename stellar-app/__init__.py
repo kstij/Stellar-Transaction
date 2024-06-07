@@ -4,17 +4,17 @@ from flask import Flask, render_template, request, session, redirect, url_for, f
 from flask_session import Session
 from stellar_sdk import Server, Keypair, TransactionBuilder, Network, Asset
 
-# Accounts endpoint - get info about an account.
+
 accounts_url = 'https://horizon-testnet.stellar.org/accounts/{}'
-# Interact with test net.
+
 server = Server(horizon_url='https://horizon-testnet.stellar.org')
 
 def create_app(test_config=None):
-    # Create and configure the Flask app.
+    
     app = Flask(__name__, instance_relative_config=True)
-    app.secret_key = 'qqqq'  # Don't use this in production
+    app.secret_key = 'qqqq'  
 
-    # Setup session configuration
+    
     app.config['SESSION_TYPE'] = 'filesystem'
     Session(app)
 
@@ -23,10 +23,10 @@ def create_app(test_config=None):
     def index():
         return render_template('index.html')
 
-    # Show balances and enter trade details
+    
     @app.route('/account', methods=('GET', 'POST'))
     def account():
-        # If user enters public key, grab and store it, otherwise get pub key from session.
+        
         if 'pubkey' in request.form:
             pub_key = request.form['pubkey']
             session['pub_key'] = pub_key
@@ -37,7 +37,7 @@ def create_app(test_config=None):
             flash('Public key not found in session.')
             return redirect(url_for('index'))
 
-        # Get information from Horizon accounts endpoint.
+        
         try:
             r = requests.get(accounts_url.format(pub_key))
             r.raise_for_status()
@@ -46,11 +46,11 @@ def create_app(test_config=None):
             flash(f'Error fetching account details: {e}')
             return redirect(url_for('index'))
 
-        # Store balances in session variable.
+        
         session['balances'] = json_obj
         return render_template('account.html', pub_key=pub_key, json_obj=json_obj)
 
-    # Store private key in session
+    
     @app.route('/store_private_key', methods=('POST',))
     def store_private_key():
         private_key = request.form['private_key']
@@ -58,7 +58,7 @@ def create_app(test_config=None):
         flash('Private key stored successfully.')
         return redirect(url_for('account'))
 
-    # Send XLM to another address
+    
     @app.route('/send_xlm', methods=('POST',))
     def send_xlm():
         recipient = request.form['recipient']
@@ -82,7 +82,7 @@ def create_app(test_config=None):
             transaction = TransactionBuilder(
                 source_account=source_account,
                 network_passphrase=Network.TESTNET_NETWORK_PASSPHRASE,
-                base_fee=100  # This is 100 stroops, equivalent to 0.00001 XLM
+                base_fee=100 
             ).add_text_memo("Test Transaction").append_payment_op(
                 destination=recipient,
                 amount=amount,
@@ -95,13 +95,13 @@ def create_app(test_config=None):
             flash(f'Transaction successful! ID: {response["hash"]}')
             flash(f'Amount sent: {amount} XLM')
 
-            # Fetch updated account balance
+           
             r = requests.get(accounts_url.format(pub_key))
             r.raise_for_status()
             json_obj = r.json()
             session['balances'] = json_obj
 
-            # Debug information
+            
             old_balance = float(session['balances']['balances'][0]['balance'])
             new_balance = float(json_obj['balances'][0]['balance'])
             debug_info = {
