@@ -6,65 +6,70 @@ body {
     margin: 0;
     padding: 0;
     background-color: #f0f0f0;
-  }
+}
   
-  /* Container styles */
-  .container {
+/* Container styles */
+.container {
     max-width: 800px;
     margin: 0 auto;
     padding: 20px;
-  }
-  
-  /* Form styles */
-  form {
+}
+
+/* Form and input styles */
+form, input[type="text"], input[type="submit"] {
+    border-radius: 5px;
+}
+
+form {
     background-color: #fff;
     padding: 20px;
-    border-radius: 5px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  }
-  
-  input[type="text"] {
-    width: calc(100% - 20px);
+    text-align: center;
+    width: 500px;
+    align-items: center;
+    
+}
+
+input[type="text"], input[type="submit"] {
+    width: 200px;  /* Adjust width as needed */
+    margin: 10px auto;  /* Center elements */
+    display: block;  /* Center elements */
     padding: 10px;
-    margin-bottom: 10px;
+}
+
+input[type="text"] {
     border: 1px solid #ccc;
-    border-radius: 5px;
-  }
-  
-  input[type="submit"] {
-    width: 100%;
-    padding: 10px;
+}
+
+input[type="submit"] {
     background-color: #007bff;
     color: #fff;
     border: none;
-    border-radius: 5px;
     cursor: pointer;
-  }
-  
-  input[type="submit"]:hover {
+}
+
+input[type="submit"]:hover {
     background-color: #0056b3;
-  }
-  
-  /* Flash messages styles */
-  .flashes {
+}
+
+/* Flash messages styles */
+.flashes {
     list-style-type: none;
     padding: 0;
-  }
-  
-  .flashes li {
+}
+
+.flashes li {
     margin-bottom: 10px;
     padding: 10px;
-    border-radius: 5px;
-  }
-  
-  /* Flash message categories */
-  .error {
+}
+
+/* Flash message categories */
+.error {
     background-color: #dc3545;
     color: #fff;
-  }
-  
-  .success {
+}
+
+.success {
     background-color: #28a745;
     color: #fff;
-  }
-  
+}
